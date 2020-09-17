@@ -16,3 +16,12 @@
     margin-left: auto;
     margin-right: 10px;
 }
+
+.new-article{
+    float: right;
+    text-decoration: none;
+    color: aliceblue;
+    padding-top: 10px;
+    margin-left: auto;
+    margin-right: 10px;
+}

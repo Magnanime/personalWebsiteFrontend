@@ -10,7 +10,14 @@ import { RegisterSuccessComponent } from './auth/register-success/register-succe
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { from } from 'rxjs';
 import { RouterModule } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {NgxWebstorageModule} from "ngx-webstorage";
+import { HomeComponent } from './home/home.component';
+import { NewArticleComponent } from './new-article/new-article.component';
+import { EditorModule } from '@tinymce/tinymce-angular';
+import { HttpClientInterceptor } from './http-client-interceptor';
+import { ArticleComponent } from './article/article.component';
+
 
 @NgModule({
   declarations: [
@@ -18,19 +25,30 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     HeaderComponent,
     RegisterComponent,
     LoginComponent,
-    RegisterSuccessComponent
+    RegisterSuccessComponent,
+    HomeComponent,
+    NewArticleComponent,
+    ArticleComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxWebstorageModule.forRoot(),
     RouterModule.forRoot([
-      {path: 'register', component: RegisterComponent}
+      {path: '', component: HomeComponent},
+      {path: 'article/:id', component: ArticleComponent},
+      {path: 'register', component: RegisterComponent},
+      {path: 'register-success', component: RegisterSuccessComponent},
+      {path: 'login', component: LoginComponent},
+      {path: 'home', component: HomeComponent},
+      {path: 'new-article', component: NewArticleComponent}
     ]),
-    HttpClientModule
+    HttpClientModule,
+    EditorModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: HttpClientInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
