@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
       email:'',
       password:'',
       confirmPassword:'',
-      comment:''
+      registrationLetter:''
     };
    }
 
@@ -41,7 +41,7 @@ export class RegisterComponent implements OnInit {
     this.registerPayload.email = this.registerForm.get('email').value;
     this.registerPayload.password = this.registerForm.get('password').value;
     this.registerPayload.confirmPassword = this.registerForm.get('confirmPassword').value;
-    this.registerPayload.comment = this.registerForm.get('comment').value;
+    this.registerPayload.registrationLetter = this.registerForm.get('comment').value;
 
     if (this.validateEmail(this.registerForm.get('email').value)){
       if (this.registerForm.get('password').value == this.registerForm.get('confirmPassword').value){

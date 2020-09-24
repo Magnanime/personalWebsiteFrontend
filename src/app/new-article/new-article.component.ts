@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, FormBuilder} from '@angular/forms';
 import {ArticlePayload} from './article-payload';
 import {AddPostService} from '../article-service.service';
 import {Router} from '@angular/router';
+import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 
 @Component({
   selector: 'app-new-article',
@@ -13,17 +14,17 @@ export class NewArticleComponent implements OnInit {
 
   addPostForm: FormGroup;
   articlePayload: ArticlePayload;
-  title = new FormControl('');
-  body = new FormControl('');
 
-  constructor(private addpostService: AddPostService, private router: Router) {
-    this.addPostForm = new FormGroup({
-      title: this.title,
-      body: this.body
+  constructor(private formBuilder:FormBuilder, private addpostService: AddPostService, private router: Router) {
+    this.addPostForm = this.formBuilder.group({
+      title: '',
+      body: '',
+      desc: ''
     });
     this.articlePayload = {
       id: '',
       content: '',
+      desc: '',
       title: '',
       username: ''
     }
@@ -34,6 +35,8 @@ export class NewArticleComponent implements OnInit {
 
   addPost() {
     this.articlePayload.content = this.addPostForm.get('body').value;
+    this.articlePayload.desc = this.addPostForm.get('desc').value;
+    console.log(this.articlePayload.content);
     this.articlePayload.title = this.addPostForm.get('title').value;
     this.addpostService.addPost(this.articlePayload).subscribe(data => {
       this.router.navigateByUrl('/');

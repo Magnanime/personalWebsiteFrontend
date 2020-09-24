@@ -3,4 +3,5 @@ export class ArticlePayload{
     content: String;
     title: String;
     username: String
+    desc: String;
   }
