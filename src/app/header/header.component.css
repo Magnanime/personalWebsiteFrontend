@@ -1,18 +1,41 @@
 .header{
     padding: 5px 20px;
-    background: royalblue;
+    background: rgb(17, 83, 14);
+    position: sticky;
+    top: 0px;
+    z-index: 999;
 }
 
 .title{
-    color: aliceblue;
+    color: rgb(232, 253, 232);
     text-decoration: none;
 }
 
-.login, .register{
+.header_button{
     float: right;
     text-decoration: none;
-    color: aliceblue;
-    padding-top: 10px;
+    color: rgb(232, 253, 232);
+    padding-top: 15px;
+    margin-left: auto;
+    margin-right: 10px;
+}
+.header_button:hover{
+    float: right;
+    opacity: 0.8;
+    text-decoration: none;
+    color: rgb(235, 21, 21);
+    padding-top: 15px;
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+.header_button:active, .header_button:focus{
+    outline: none !important;
+    box-shadow: none;
+    float: right;
+    text-decoration: none;
+    color: rgb(235, 21, 21);
+    padding-top: 15px;
     margin-left: auto;
     margin-right: 10px;
 }
@@ -20,7 +43,7 @@
 .new-article{
     float: right;
     text-decoration: none;
-    color: aliceblue;
+    color: rgb(131, 130, 130);
     padding-top: 10px;
     margin-left: auto;
     margin-right: 10px;

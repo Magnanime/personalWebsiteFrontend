@@ -15,23 +15,56 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 export class HomeComponent implements OnInit {
 
   articles: Observable<Array<ArticlePayload>>;
-  nextUrl: string;
-  prevUrl: string;
+  olderUrl: string;
+  newerUrl: string;
   constructor(private postService: AddPostService, private httpClient: HttpClient) { }
 
   ngOnInit() {
     this.articles = this.postService.getAllPosts().pipe(
       map((result: any)=>{
-        this.nextUrl = result._links.next.href;
+        if (result._links.hasOwnProperty("next")) {
+          this.olderUrl = result._links.next.href;
+        }
+        if (result._links.hasOwnProperty("prev")){
+          this.newerUrl = result._links.prev.href;
+        }
+        //this.olderUrl = result._links.next.href;
         return result._embedded.article;
       }));
 
   }
 
-  nextPage() {
-    this.articles = this.httpClient.get(this.nextUrl).pipe(
+  olderPage() {
+    this.articles = this.httpClient.get(this.olderUrl).pipe(
       map((result:any)=>{
-        this.nextUrl = result._links.next.href;
+        if (result._links.hasOwnProperty("next")) {
+          this.olderUrl = result._links.next.href;
+        } else {
+          this.olderUrl = null;
+        }
+        if (result._links.hasOwnProperty("prev")){
+          this.newerUrl = result._links.prev.href;
+        } else {
+          this.newerUrl = null;
+        }
+        return result._embedded.article;
+      })
+    )
+  }
+
+  newerPage() {
+    this.articles = this.httpClient.get(this.newerUrl).pipe(
+      map((result:any)=>{
+        if (result._links.hasOwnProperty("next")) {
+          this.olderUrl = result._links.next.href;
+        } else {
+          this.olderUrl = null;
+        }
+        if (result._links.hasOwnProperty("prev")){
+          this.newerUrl = result._links.prev.href;
+        } else {
+          this.newerUrl = null;
+        }
         return result._embedded.article;
       })
     )

@@ -1,22 +1,3 @@
-<div class="content">
-    <div class="container">
-      <div class="row" *ngFor="let article of articles | async">
-        <div class="blogpost">
-          <h3><a href="/article/{{article.id}}" class="blog-title">{{article.title}}</a></h3>
-          <div>
-            <i class="fas fa-user"></i> Author: <p>{{article.username}}</p>
-          </div>
-          <p [innerHTML]="article.content"></p>
-          <div>
-            <a type="button" href="/article/{{article.id}}" class="read-more btn btn-default">Read More</a>
-          </div>
-          <hr>
-        </div>
-        <hr>
-      </div>
-    </div>
-  </div>
-
   <div class="container">
 
       <div class="row">
@@ -29,54 +10,32 @@
           </h1>
   
           <!-- Blog Post -->
-          <div class="card mb-4">
+          <div class="card mb-4" *ngFor="let article of articles | async">
             <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
             <div class="card-body">
-              <h2 class="card-title">Post Title</h2>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-              <a href="#" class="btn btn-primary">Read More &rarr;</a>
+              <h2 class="card-title">{{article.title}}</h2>
+              <p class="card-text">{{article.shortContent}}</p>
+              <a href="/article/{{article.id}}" class="btn btn-primary">Read More &rarr;</a>
             </div>
             <div class="card-footer text-muted">
               Posted on January 1, 2020 by
-              <a href="#">Start Bootstrap</a>
-            </div>
-          </div>
-  
-          <!-- Blog Post -->
-          <div class="card mb-4">
-            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-            <div class="card-body">
-              <h2 class="card-title">Post Title</h2>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-              <a href="#" class="btn btn-primary">Read More &rarr;</a>
-            </div>
-            <div class="card-footer text-muted">
-              Posted on January 1, 2020 by
-              <a href="#">Start Bootstrap</a>
-            </div>
-          </div>
-  
-          <!-- Blog Post -->
-          <div class="card mb-4">
-            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-            <div class="card-body">
-              <h2 class="card-title">Post Title</h2>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-              <a href="#" class="btn btn-primary">Read More &rarr;</a>
-            </div>
-            <div class="card-footer text-muted">
-              Posted on January 1, 2020 by
-              <a href="#">Start Bootstrap</a>
+              <a>{{article.username}}</a>
             </div>
           </div>
   
           <!-- Pagination -->
           <ul class="pagination justify-content-center mb-4">
-            <li class="page-item">
-              <a class="page-link" (click)="nextPage()" href="#">&larr; Newer</a>
+            <li class="page-item" *ngIf="this.newerUrl">
+              <a class="page-link" (click)="newerPage()" >&larr; Newer</a>
             </li>
-            <li class="page-item disabled">
-              <a class="page-link" href="#">Older &rarr;</a>
+            <li class="page-item disabled" *ngIf="!this.newerUrl">
+              <a class="page-link" (click)="newerPage()" >&larr; Newer</a>
+            </li>
+            <li class="page-item disabled" *ngIf="!this.olderUrl">
+              <a class="page-link" (click)="olderPage()" >Older &rarr;</a>
+            </li>
+            <li class="page-item" *ngIf="this.olderUrl">
+              <a class="page-link" (click)="olderPage()" >Older &rarr;</a>
             </li>
           </ul>
   

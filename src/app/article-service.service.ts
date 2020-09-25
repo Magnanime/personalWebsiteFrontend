@@ -18,10 +18,10 @@ export class AddPostService {
   }
 
   getAllPosts(): Observable<JSON>{
-    return this.httpClient.get<JSON>("http://localhost:8080/api/articles?page=1&size=2&sort=title,desc");
+    return this.httpClient.get<JSON>("http://localhost:8080/api/articles?page=0&size=2&sort=createdOn,desc");
   }
 
   getPost(permaLink: Number):Observable<ArticlePayload>{
-    return this.httpClient.get<ArticlePayload>('http://localhost:8080/api/posts/get/' + permaLink);
+    return this.httpClient.get<ArticlePayload>('http://localhost:8080/api/articles/' + permaLink);
   }
 }
