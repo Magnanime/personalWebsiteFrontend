@@ -4,4 +4,5 @@ export class ArticlePayload{
     title: String;
     username: String
     desc: String;
+    thumbnailPath: any;
   }

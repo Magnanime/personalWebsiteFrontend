@@ -4,6 +4,12 @@ import {ArticlePayload} from './article-payload';
 import {AddPostService} from '../article-service.service';
 import {Router} from '@angular/router';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
+import {ImageService} from '../image-service.service';
+import { map } from 'rxjs/operators';
+
+class ImageSnippet {
+  constructor(public src: string, public file: File) {}
+}
 
 @Component({
   selector: 'app-new-article',
@@ -14,8 +20,14 @@ export class NewArticleComponent implements OnInit {
 
   addPostForm: FormGroup;
   articlePayload: ArticlePayload;
+  selectedFile: File;
+  imageResponse: JSON;
 
-  constructor(private formBuilder:FormBuilder, private addpostService: AddPostService, private router: Router) {
+  onFileChanged(event) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  constructor(private formBuilder:FormBuilder, private addpostService: AddPostService, private router: Router, private imageService: ImageService) {
     this.addPostForm = this.formBuilder.group({
       title: '',
       body: '',
@@ -26,7 +38,8 @@ export class NewArticleComponent implements OnInit {
       content: '',
       desc: '',
       title: '',
-      username: ''
+      username: '',
+      thumbnailPath: ''
     }
   }
 
@@ -36,12 +49,18 @@ export class NewArticleComponent implements OnInit {
   addPost() {
     this.articlePayload.content = this.addPostForm.get('body').value;
     this.articlePayload.desc = this.addPostForm.get('desc').value;
-    console.log(this.articlePayload.content);
     this.articlePayload.title = this.addPostForm.get('title').value;
-    this.addpostService.addPost(this.articlePayload).subscribe(data => {
-      this.router.navigateByUrl('/');
+    this.imageService.uploadImage(this.selectedFile).subscribe(data => {
+      this.articlePayload.thumbnailPath = data['pathName'];
+      this.addpostService.addPost(this.articlePayload).subscribe(data => {
+        this.router.navigateByUrl('/');
+      }, error => {
+        console.log('Failure Response');
+      })
     }, error => {
       console.log('Failure Response');
     })
+    console.log(this.articlePayload)
+    
   }
 }

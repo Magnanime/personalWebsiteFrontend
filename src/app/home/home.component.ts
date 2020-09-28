@@ -5,6 +5,7 @@ import {ArticlePayload} from '../new-article/article-payload';
 import { map } from 'rxjs/internal/operators/map';
 import { Router } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { DomSanitizer, SafeUrl, SafeValue } from '@angular/platform-browser';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class HomeComponent implements OnInit {
   articles: Observable<Array<ArticlePayload>>;
   olderUrl: string;
   newerUrl: string;
-  constructor(private postService: AddPostService, private httpClient: HttpClient) { }
+  constructor(private sanitize: DomSanitizer ,private postService: AddPostService, private httpClient: HttpClient) { }
 
   ngOnInit() {
     this.articles = this.postService.getAllPosts().pipe(
@@ -28,10 +29,17 @@ export class HomeComponent implements OnInit {
         if (result._links.hasOwnProperty("prev")){
           this.newerUrl = result._links.prev.href;
         }
+        console.log(result);
         //this.olderUrl = result._links.next.href;
         return result._embedded.article;
       }));
 
+  }
+
+  sanitizePath(articlePayload: ArticlePayload){
+    console.log(articlePayload.thumbnailPath);
+    console.log(this.sanitize.bypassSecurityTrustResourceUrl(articlePayload.thumbnailPath));
+    return this.sanitize.bypassSecurityTrustResourceUrl("http://"+articlePayload.thumbnailPath);
   }
 
   olderPage() {
