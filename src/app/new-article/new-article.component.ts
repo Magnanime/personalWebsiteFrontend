@@ -31,15 +31,17 @@ export class NewArticleComponent implements OnInit {
     this.addPostForm = this.formBuilder.group({
       title: '',
       body: '',
-      desc: ''
+      shortContent: ''
     });
     this.articlePayload = {
       id: '',
       content: '',
-      desc: '',
+      shortContent: '',
       title: '',
       username: '',
-      thumbnailPath: ''
+      thumbnailPath: '',
+      createdOn: '',
+      updatedOn: ''
     }
   }
 
@@ -47,8 +49,10 @@ export class NewArticleComponent implements OnInit {
   }
 
   addPost() {
+    this.articlePayload.createdOn = new Date().toISOString();
+    this.articlePayload.updatedOn = new Date().toISOString();
     this.articlePayload.content = this.addPostForm.get('body').value;
-    this.articlePayload.desc = this.addPostForm.get('desc').value;
+    this.articlePayload.shortContent = this.addPostForm.get('shortContent').value;
     this.articlePayload.title = this.addPostForm.get('title').value;
     this.imageService.uploadImage(this.selectedFile).subscribe(data => {
       this.articlePayload.thumbnailPath = data['pathName'];
@@ -60,7 +64,5 @@ export class NewArticleComponent implements OnInit {
     }, error => {
       console.log('Failure Response');
     })
-    console.log(this.articlePayload)
-    
   }
 }

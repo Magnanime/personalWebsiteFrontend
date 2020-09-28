@@ -29,17 +29,13 @@ export class HomeComponent implements OnInit {
         if (result._links.hasOwnProperty("prev")){
           this.newerUrl = result._links.prev.href;
         }
-        console.log(result);
-        //this.olderUrl = result._links.next.href;
         return result._embedded.article;
       }));
 
   }
 
   sanitizePath(articlePayload: ArticlePayload){
-    console.log(articlePayload.thumbnailPath);
-    console.log(this.sanitize.bypassSecurityTrustResourceUrl(articlePayload.thumbnailPath));
-    return this.sanitize.bypassSecurityTrustResourceUrl("http://"+articlePayload.thumbnailPath);
+    return this.sanitize.bypassSecurityTrustResourceUrl(articlePayload.thumbnailPath);
   }
 
   olderPage() {

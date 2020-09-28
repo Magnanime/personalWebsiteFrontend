@@ -3,6 +3,8 @@ export class ArticlePayload{
     content: String;
     title: String;
     username: String
-    desc: String;
+    shortContent: String;
     thumbnailPath: any;
+    createdOn: String;
+    updatedOn: String;
   }

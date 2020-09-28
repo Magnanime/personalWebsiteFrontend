@@ -11,7 +11,7 @@
         </div>
         <div class="form-group">
             <label class="post-title">Short description</label>
-            <textarea class="form-control" type=text rows="2" id="desc" [maxlength]="120" [formControlName]="'desc'" placeholder="Short description of your article (max 120 characters)"></textarea>
+            <textarea class="form-control" type=text rows="2" id="shortContent" [maxlength]="120" [formControlName]="'shortContent'" placeholder="Short description of your article (max 120 characters)"></textarea>
         </div>
         <input type="file" (change)="onFileChanged($event)">
         <div class="form-group">
